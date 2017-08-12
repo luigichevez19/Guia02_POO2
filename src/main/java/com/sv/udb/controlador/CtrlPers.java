@@ -27,7 +27,7 @@ public class CtrlPers {
     Connection con = new Conexion().getConn();
         try 
         {
-        PreparedStatement cmd = con.prepareStatement("Insert into pers values(null,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement cmd = con.prepareStatement("Insert into pers values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         cmd.setString(1,obj.getNomb());
         cmd.setString(2,obj.getApel());
         cmd.setBytes(3, obj.getFoto());
@@ -36,11 +36,12 @@ public class CtrlPers {
         cmd.setString(6,obj.getNaci());
         cmd.setString(7,obj.getDui());
         cmd.setString(8,obj.getNit());
-        cmd.setString(9,obj.getSang());
-        cmd.setString(10,obj.getUbic());
-        cmd.setString(11,obj.getFech1());
-        cmd.setString(12,obj.getFech2());
-        cmd.setBoolean(13,obj.isEsta());
+        cmd.setString(9,obj.getEmail());
+        cmd.setString(10,obj.getSang());
+        cmd.setString(11,obj.getUbic());
+        cmd.setString(12,obj.getFech1());
+        cmd.setString(13,obj.getFech2());
+        cmd.setBoolean(14,obj.isEsta());
         cmd.executeUpdate();
         resp=true;
         }
@@ -74,7 +75,7 @@ public class CtrlPers {
         try 
         {
         PreparedStatement cmd = con.prepareStatement("update pers set NOMB_PERS=?,APEL_PERS=?, FOTO_PERS=?,CODI_TIPO_PERS=?,"
-        + "GENE_PERS=?, FECH_NACI_PERS=?, DUI_PERS=?,NIT_PERS=?,TIPO_SANG_PERS=?,CODI_UBIC_GEOG=?,FECH_ALTA=?,FECH_BAJA=?,"
+        + "GENE_PERS=?, FECH_NACI_PERS=?, DUI_PERS=?,NIT_PERS=?,Email=?,TIPO_SANG_PERS=?,CODI_UBIC_GEOG=?,FECH_ALTA=?,FECH_BAJA=?,"
                 + "ESTA=? where CODI_PERS=?");
          cmd.setString(1,obj.getNomb());
         cmd.setString(2,obj.getApel());
@@ -84,12 +85,13 @@ public class CtrlPers {
         cmd.setString(6,obj.getNaci());
         cmd.setString(7,obj.getDui());
         cmd.setString(8,obj.getNit());
-        cmd.setString(9,obj.getSang());
-        cmd.setString(10,obj.getUbic());
-        cmd.setString(11,obj.getFech1());
-        cmd.setString(12,obj.getFech2());
-        cmd.setBoolean(13,obj.isEsta());
-        cmd.setInt(14, obj.getCodi());
+         cmd.setString(9,obj.getEmail());
+        cmd.setString(10,obj.getSang());
+        cmd.setString(11,obj.getUbic());
+        cmd.setString(12,obj.getFech1());
+        cmd.setString(13,obj.getFech2());
+        cmd.setBoolean(14,obj.isEsta());
+        cmd.setInt(15, obj.getCodi());
         cmd.executeUpdate();
         resp=true;
         }
@@ -156,13 +158,11 @@ public class CtrlPers {
     Connection cn =new Conexion().getConn();
         try 
         {
-           PreparedStatement cmd = cn.prepareStatement("Select d.Id_partido, d.nomb_equi,dd.nomb_equi,dd.marcador,"
-         + "dd.marcador2, dd.Fecha,dd.Hora,dd.Lugar from Datos d, Datos2 dd "
-          + "where dd.Id_partido = d.Id_partido  group by dd.Id_partido");
+           PreparedStatement cmd = cn.prepareStatement("Select NOMB_PERS,APEL_PERS,Email from pers");
               ResultSet rs = cmd.executeQuery();
               while (rs.next())
               {
-//              resp.add(new Partidos(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getDate(6).toString(),rs.getString(7),rs.getString(8)));
+              resp.add(new Pers(rs.getString(1),rs.getString(2),rs.getString(3)));
               }
         }
         catch (Exception e)

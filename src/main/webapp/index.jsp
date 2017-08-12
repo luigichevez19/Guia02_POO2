@@ -1,3 +1,5 @@
+<%@page import="com.sv.udb.modelo.Pers"%>
+<%@page import="com.sv.udb.controlador.CtrlPers"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -18,34 +20,21 @@
     </head>
     
     <body>
-      <div class="row">
+      <div class="container row">
     <form class="col s12">
       <div class="row">
-        <div class="input-field col s6">
-          <i class="material-icons prefix">account_circle</i>
-          <input id="icon_prefix" name="txtNombre" type="text" class="validate">
-          <label for="icon_prefix">Nombres</label>
-        </div>
-          <div class="input-field col s6">
-          <i class="material-icons prefix">account_circle</i>
-          <input id="icon_prefix" name="txtApellido" type="text" class="validate">
-          <label for="icon_prefix">Apellidos</label>
-        </div>
-           <div class="input-field col s12">
-    <select>
+       
+     <div class="input-field col s12">
+    <select multiple>
       <option value="" disabled selected>Choose your option</option>
-      <option value="1">Option 1</option>
-      <option value="2">Option 2</option>
-      <option value="3">Option 3</option>
+      <%for (Pers temp: new CtrlPers().ver()){%>
+      <option value="<%=temp.getEmail()%>"><%=temp.getNomb()%> <%=temp.getApel()%></option>
+    <%}%>
     </select>
-    <label>Materialize Select</label>
+    <label>Materialize Multiple Select</label>
   </div>
 
-        <div class="input-field col s6">
-          <i class="material-icons prefix">phone</i>
-          <input id="icon_telephone" type="tel" class="validate">
-          <label for="icon_telephone">Telephone</label>
-        </div>
+       
       </div>
     </form>
   </div>

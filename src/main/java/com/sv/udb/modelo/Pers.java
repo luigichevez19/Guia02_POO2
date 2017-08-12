@@ -14,7 +14,21 @@ public class Pers {
     int Codi,tipoP;
     boolean esta;
     String nomb, apel,sang,dui,nit,naci,fech1,fech2,tipo,ubic;
-    String gene;
+    String gene,email;
+
+    public Pers(String nomb, String apel, String email) {
+        this.nomb = nomb;
+        this.apel = apel;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
     byte [] foto;
 
     public String getUbic() {
