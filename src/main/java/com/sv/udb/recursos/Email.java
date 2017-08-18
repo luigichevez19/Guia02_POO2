@@ -30,76 +30,134 @@ import javax.mail.internet.MimeMultipart;
  * @author Luis
  */
 public class Email {
-    public static void main(String[] args) throws IOException, AddressException {
-		
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-		
-		String resourceName = "config.properties";
-		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		Properties config = new Properties();
-		try(InputStream resourceStream = loader.getResourceAsStream(resourceName)) {
-		    config.load(resourceStream);
-		}
- 
-		final String gmailAccount = config.getProperty("gmail.account");
-		final String gmailPassword = config.getProperty("gmail.password");
-		final String[] emailDestinations = config.getProperty("emaildestinations").split(";");
-		final String[] attachmentFiles = config.getProperty("attachmentfiles").split(";");
- 
-		Session session = Session.getDefaultInstance(props,
-			new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(gmailAccount,gmailPassword);
-				}
-			});
- 
-		try {
- 
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(gmailAccount));
-			
-			for (String emailDestination : emailDestinations) {
-				message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(emailDestination));
-			}
- 
-			message.setSubject("Email Subject - Asunto del correo electronico");
- 
-			BodyPart messageBodyPart = new MimeBodyPart();
-			messageBodyPart.setText("Email text Body - Texto o cuerpo del correo electronico");
-			
-			Multipart multipart = new MimeMultipart();
-			for (String attachmentFile : attachmentFiles) {
-				addAttachment(multipart, attachmentFile);
-			}
-			
-			//Setting email text message
-			multipart.addBodyPart(messageBodyPart);
- 
-			//set the attachments to the email
-	        message.setContent(multipart);
- 
-			Transport.send(message);
- 
-			System.out.println("Correo enviado");
- 
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
- 
-	}
-	
-	private static void addAttachment(Multipart multipart, String filePath) throws MessagingException
-	{
-		File file = new File(filePath);
-	    DataSource source = new FileDataSource(file);
-	    BodyPart messageBodyPart = new MimeBodyPart();        
-	    messageBodyPart.setDataHandler(new DataHandler(source));
-	    messageBodyPart.setFileName(file.getName());
-	    multipart.addBodyPart(messageBodyPart);
-	}
+       //declaración de nuestras variables
+//correo electrónico que se utilizara para enviar los mail
+    private String Username = "luigichevez@gmail.com";
+//contraseña de correo electrónico
+    private String PassWord = "cindy654";
+//mensaje
+    String Mensage = "";
+//destino de mail
+    String To = "";
+//asunto a tratar
+    String Subject = "";
+    
+    //copia 
+    String CC = "";
+    
+    //copia oculta
+    String CCO ="";
+    
+    public Email()
+    {
+        
+    }
+  
+    
+    public Email(String mens, String para, String tema, String cc, String cco)
+    {
+        this.Mensage = mens;
+        this.To = para;
+        this.Subject = tema;
+        this.CC = cc;
+        this.CCO = cco;
+    }
+  
+  
+  
+//métodos para obtener o cambiar información de nuestras variables
+
+    public void mensaje(String mensaje) {
+        this.Mensage = mensaje;
+    }
+
+    public void para(String para) {
+        this.To = para;
+    }
+
+    public void asunto(String asunto) {
+        this.Subject = asunto;
+    }
+
+// este método autentifica el usuario y contraseña y enviar el mail a el destinatario
+
+    public boolean SendMail(int i) {
+        boolean resp;
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Username, PassWord);
+            }
+        });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(Username));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(To));
+            if(i == 1)
+            {
+            message.setRecipients(Message.RecipientType.CC,
+                    InternetAddress.parse(CC));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse(CCO));
+             }
+            message.setSubject(Subject);
+            message.setText(Mensage);
+            Transport.send(message);
+            resp = true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            resp = false;
+        }
+        return resp;
+    }
+
+//este método enviar un mail al destinatario adjuntando un archivo (pdf), con la diferencia que nos pedirá nombre del archivo, ruta del archivo y asunto del porque envía el archivo
+
+    public void enviarpdf(String archivo, String nombre, String asunto) {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Username, PassWord);
+            }
+        });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(Username));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(To));
+            BodyPart adjunto = new MimeBodyPart();
+            BodyPart texto = new MimeBodyPart();
+            texto.setText(asunto);
+            adjunto.setDataHandler(new DataHandler(new FileDataSource(archivo)));
+            adjunto.setFileName(nombre);
+            MimeMultipart multiParte = new MimeMultipart();
+            multiParte.addBodyPart(adjunto);
+            multiParte.addBodyPart(texto);
+            message.setSubject(Subject);
+            message.setText(Mensage);
+            message.setContent(multiParte);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -5,6 +5,7 @@
  */
 package com.sv.udb.vista;
 
+import com.sv.udb.recursos.Email;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -31,6 +32,33 @@ public class Llamada extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+         boolean esValido = request.getMethod().equals("POST");
+       String mens="";
+       
+       if(!esValido)
+       {
+            response.sendRedirect(request.getContextPath()+"/index.jsp");
+       }
+       else
+       {   
+            String cc = "diegochevez15@gmail.com";// request.getParameter("cc");
+            String cco = "diegochevez15@gmail.com";//request.getParameter("cco");
+            String asunto ="Prueba"; //request.getParameter("asunto");
+            String mensaje ="Hello, How are you?"; //request.getParameter("mensaje");
+            String[] mailList = request.getParameterValues("usuarios");
+            int i =1;
+            for(String mail : mailList)
+            {
+                 Email enviar = new Email(mensaje, mail, asunto,cc,cco);
+                 enviar.SendMail(i);
+                 i++;
+            }
+            
+            request.setAttribute("mensAlert", mens);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);  
+       }
+       
        
     }
 

@@ -21,20 +21,18 @@
     
     <body>
       <div class="container row">
-    <form class="col s12">
+    <form class="col s12" method="POST" action="Llamada" name="Demo">
       <div class="row">
-       
      <div class="input-field col s12">
-    <select multiple>
-      <option value="" disabled selected>Choose your option</option>
+         <select name="usuarios" id="usuarios" multiple>
+      <option value="" disabled selected>Seleccione los usuarios</option>
       <%for (Pers temp: new CtrlPers().ver()){%>
       <option value="<%=temp.getEmail()%>"><%=temp.getNomb()%> <%=temp.getApel()%></option>
     <%}%>
     </select>
-    <label>Materialize Multiple Select</label>
+    <label>Usuarios con correos</label>
   </div>
-
-       
+   <input type="submit" value="Enviar datos!" name="btnEnviar"  value="Enviar" > 
       </div>
     </form>
   </div>
