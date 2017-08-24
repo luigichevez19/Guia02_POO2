@@ -44,8 +44,8 @@ public class Llamada extends HttpServlet {
        {   
             String cc = "diegochevez15@gmail.com";// request.getParameter("cc");
             String cco = "diegochevez15@gmail.com";//request.getParameter("cco");
-            String asunto ="Prueba"; //request.getParameter("asunto");
-            String mensaje ="Hello, How are you?"; //request.getParameter("mensaje");
+            String asunto =request.getParameter("asunto");
+            String mensaje =request.getParameter("mensaje");
             String[] mailList = request.getParameterValues("usuarios");
             int i =1;
             for(String mail : mailList)

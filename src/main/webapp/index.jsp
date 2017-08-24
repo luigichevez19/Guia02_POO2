@@ -30,8 +30,48 @@
       <option value="<%=temp.getEmail()%>"><%=temp.getNomb()%> <%=temp.getApel()%></option>
     <%}%>
     </select>
-    <label>Usuarios con correos</label>
+    <label>Para</label>
   </div>
+     <div class="input-field col s12">
+         <select name="usuarios" id="usuarios" multiple>
+      <option value="" disabled selected>Seleccione los usuarios</option>
+      <%for (Pers temp: new CtrlPers().ver()){%>
+      <option value="<%=temp.getEmail()%>"><%=temp.getNomb()%> <%=temp.getApel()%></option>
+    <%}%>
+    </select>
+    <label>CC</label>
+  </div>
+     <div class="input-field col s12">
+         <select name="usuarios" id="usuarios" multiple>
+      <option value="" disabled selected>Seleccione los usuarios</option>
+      <%for (Pers temp: new CtrlPers().ver()){%>
+      <option value="<%=temp.getEmail()%>"><%=temp.getNomb()%> <%=temp.getApel()%></option>
+    <%}%>
+    </select>
+    <label>CCO</label>
+  </div>
+     <div class="row">
+        <div class="input-field col s4 m6 l12">
+          <i class="material-icons prefix">account_circle</i>
+          <input id="icon_prefix" name="asunto" type="text" class="validate">
+          <label for="icon_prefix">Asunto</label>
+        </div>
+     <div class="row">
+        <div class="input-field col s4 m6 l12">
+          <i class="material-icons prefix">mode_edit</i>
+          <textarea id="icon_prefix2" name="mensaje" class="materialize-textarea"></textarea>
+          <label for="icon_prefix2">Mensaje</label>
+        </div>
+      </div>
+     <div class="file-field input-field">
+      <div class="btn">
+        <span>File</span>
+        <input type="file">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
    <input type="submit" value="Enviar datos!" name="btnEnviar"  value="Enviar" > 
       </div>
     </form>
