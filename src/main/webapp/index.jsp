@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                <!-- Import Google Icon Font -->
+      <!-- Import Google Icon Font -->
     <link type='text/css' rel='stylesheet' href='css/icons.css'/>
       <!-- Import materialize.css -->
     <link type='text/css' rel='stylesheet' href='webjars/materialize/0.98.0/dist/css/materialize.min.css'  media='screen,projection'/>
@@ -20,6 +20,15 @@
     </head>
     
     <body>
+         <nav>
+    <div class="nav-wrapper red">
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="index.jsp">Envio Correos</a></li>
+        <li><a href="manto.jsp">Mantenimiento</a></li>
+      </ul>
+    </div>
+  </nav>
+        
       <div class="container row">
     <form class="col s12" method="POST" action="Llamada" name="Demo">
       <div class="row">
@@ -72,7 +81,7 @@
         <input class="file-path validate" type="text">
       </div>
     </div>
-   <input type="submit" value="Enviar datos!" name="btnEnviar"  value="Enviar" > 
+   <input type="submit" class="btn blue-grey col s3 offset-s2" name="btnEnviar" value="Enviar"/>   
       </div>
     </form>
   </div>
